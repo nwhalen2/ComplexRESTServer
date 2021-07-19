@@ -13,20 +13,15 @@ def start_service():
 
     dormController = DormController(ddb=ddb)
 
-    #use dispatcher to connect resources to event handlers
-    #connect(out_tag, http resource, class object with handler, event handler name, what type of HTTP request to serve)
+    # use dispatcher to connect resources to event handlers
+    # connect(out_tag, http resource, class object with handler, event handler name, what type of HTTP request to serve)
     dispatcher.connect('get_dorm','/dorms/:d_id/', controller=dormController, action='GET_DORM', conditions=dict(method=['GET']))
-    #get_index
-    dispatcher.connect('get_index','/dorms/', controller=dormController, action='GET_INDEX', conditions=dict(method=['GET']))
-    #delete_key
     dispatcher.connect('delete_dorm','/dorms/:d_id/', controller=dormController, action='DELETE_DORM', conditions=dict(method=['DELETE']))
-    #delete_index
-    dispatcher.connect('delete_index','/dorms/', controller=dormController, action='DELETE_INDEX', conditions=dict(method=['DELETE']))
-    #post_index
-    dispatcher.connect('post_index','/dorms/', controller=dormController, action='POST_INDEX', conditions=dict(method=['POST']))
-    #put_index
     dispatcher.connect('put_dorm','/dorms/:d_id/', controller=dormController, action='PUT_DORM', conditions=dict(method=['PUT']))
-    #connect more resources to event handlers here
+    dispatcher.connect('get_index','/dorms/', controller=dormController, action='GET_INDEX', conditions=dict(method=['GET']))
+    dispatcher.connect('delete_index','/dorms/', controller=dormController, action='DELETE_INDEX', conditions=dict(method=['DELETE']))
+    dispatcher.connect('post_index','/dorms/', controller=dormController, action='POST_INDEX', conditions=dict(method=['POST']))
+
 
     # default OPTIONS handler for CORS, all direct to the same place
     dispatcher.connect('dict_options', '/dictionary/', controller=optionsController, action='OPTIONS', conditions=dict(method=['OPTIONS']))

@@ -24,59 +24,35 @@ class TestCherrypyPrimer(unittest.TestCase):
             self.assertTrue(self.is_json(r.content.decode()))
             resp = json.loads(r.content.decode())
             print(resp)
-            resp = resp['11']
+            resp = resp['19']
 
-            d = {}
-            d['name'] = 'Lyons'
-            d['year'] = '1927'
-            d['gender'] = 'Female'
-            d['quad'] = 'South'
-            d['mascot'] = 'Lion'
             self.assertEqual(resp['result'], 'success')
 
-            self.assertEqual(resp['name'], d['name'])
-            self.assertEqual(resp['year'], d['year'])
-            self.assertEqual(resp['gender'], d['gender'])
-            self.assertEqual(resp['quad'], d['quad'])
-            self.assertEqual(resp['mascot'], d['mascot'])
+            self.assertEqual(resp['name'], 'Lyons')
+            self.assertEqual(resp['year'], '1927')
+            self.assertEqual(resp['gender'], 'Female')
+            self.assertEqual(resp['quad'], 'South')
+            self.assertEqual(resp['mascot'], 'Lion')
 
         def test_index_delete(self):
-                self.reset_data()
 
                 d_id = 12
                 d = {}
-                d['name'] = 'Flaherty'
-                d['year'] = 2016
-                d['gender'] = 'Female'
-                d['quad'] = 'Mod'
-                d['mascot'] = 'Bears'
-                r = requests.delete(self.DICT_URL + d_id, data = json.dumps(d)) # uses put
+
+                r = requests.delete(self.DORMS_URL, data = json.dumps(d)) # uses put
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'success')
 
-                #key2 = 'GinnyWeasley'
-                #m2 = {}
-                #m2['value'] = 'Gryffindor'
-                #r = requests.put(self.DICT_URL + key2, data = json.dumps(m2)) # uses put
-                #self.assertTrue(self.is_json(r.content.decode()))
-                #resp = json.loads(r.content.decode())
-                #self.assertEqual(resp['result'], 'success')
-
-                r = requests.delete(self.DICT_URL) # delete index
-                self.assertTrue(self.is_json(r.content.decode()))
-                resp = json.loads(r.content.decode())
-                self.assertEqual(resp['result'], 'success')
-
-                r = requests.get(self.DICT_URL + d_id) # uses get
+                r = requests.delete(self.DORMS_URL + str(d_id) + '/') # delete index
                 self.assertTrue(self.is_json(r.content.decode()))
                 resp = json.loads(r.content.decode())
                 self.assertEqual(resp['result'], 'error')
 
-                #r = requests.get(self.DICT_URL + key2) # uses get
-                #self.assertTrue(self.is_json(r.content.decode()))
-                #resp = json.loads(r.content.decode())
-                #self.assertEqual(resp['result'], 'error')
+                r = requests.get(self.DORMS_URL + str(d_id) + '/') # uses get
+                self.assertTrue(self.is_json(r.content.decode()))
+                resp = json.loads(r.content.decode())
+                self.assertEqual(resp['result'], 'error')
 
 
         #def test_dict_index_post(self):

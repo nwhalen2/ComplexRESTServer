@@ -1,6 +1,7 @@
 #this file starts up the server and connects request/event types with event handlers
 import routes
 import cherrypy
+from reset_controller import ResetController
 from dorm_controller import DormController # getting our classes
 from dorm_library import _dorm_database
 
@@ -11,6 +12,7 @@ def start_service():
 
     ddb = _dorm_database()
 
+    resetController = ResetController(ddb=ddb)
     dormController = DormController(ddb=ddb)
 
     # use dispatcher to connect resources to event handlers
@@ -22,6 +24,8 @@ def start_service():
     dispatcher.connect('delete_index','/dorms/', controller=dormController, action='DELETE_INDEX', conditions=dict(method=['DELETE']))
     dispatcher.connect('post_index','/dorms/', controller=dormController, action='POST_INDEX', conditions=dict(method=['POST']))
 
+    # connect to reset controller
+    dispatcher.connect('reset_index_put', '/reset/', controller=resetController, action = 'PUT_INDEX', conditions=dict(method=['PUT']))
 
     # default OPTIONS handler for CORS, all direct to the same place
     dispatcher.connect('dict_options', '/dictionary/', controller=optionsController, action='OPTIONS', conditions=dict(method=['OPTIONS']))

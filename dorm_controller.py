@@ -49,7 +49,11 @@ class DormController(object):
         data = json.loads(data)
 
         dorm = list()
-        dorm.append(data['info'])
+        dorm.append(data['name'])
+        dorm.append(data['year'])
+        dorm.append(data['gender'])
+        dorm.append(data['quad'])
+        dorm.append(data['mascot'])
 
         self.ddb.set_dorm(d_id, dorm)
 
@@ -75,11 +79,13 @@ class DormController(object):
         # extract msg from body
         data = cherrypy.request.body.read().decode('utf-8')
         data = json.loads(data)
+        print("body data: " + str(data))
 
         try:
             dorms = list(self.ddb.get_dorms())
             newID = int(dorms[-1]) + 1
-            self.ddb.dorm_info[newID] = data['info']
+            self.ddb.dorm_info[newID] = data
+            output['id'] = newID
             
         except Exception as ex:
             output['result'] = 'error'

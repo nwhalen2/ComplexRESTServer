@@ -10,7 +10,6 @@ class _dorm_database:
         for line in f:
                 line = line.rstrip()
                 components = line.split("--")
-                print(components)
                 d_id = int(components[0])
                 name = components[1]
                 year = int(components[2])
@@ -40,7 +39,7 @@ class _dorm_database:
     def set_dorm(self, d_id, dorm):
         self.dorm_info[d_id] = dorm
 
-        if id not in self.dorm_info.keys():
+        if d_id not in self.dorm_info.keys():
             self.dorm_info[d_id] = dict()
 
     def delete_dorm(self, d_id):

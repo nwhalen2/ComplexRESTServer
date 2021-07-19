@@ -30,6 +30,21 @@ class TestCherrypyPrimer(unittest.TestCase):
                 self.assertEqual(resp['quad'], 'South')
                 self.assertEqual(resp['mascot'], 'Vermin')
 
+        def test_dorm_delete(self):
+                #self.reset_data()
+
+                d_id = 11
+
+                d = {}
+                r = requests.delete(self.DORMS_URL + str(d_id) + '/', data = json.dumps(d))
+                self.assertTrue(self.is_json(r.content.decode('utf-8')))
+                resp = json.loads(r.content.decode('utf-8'))
+                self.assertEqual(resp['result'], 'success')
+
+                r = requests.get(self.DORMS_URL + str(d_id) + '/')
+                self.assertTrue(self.is_json(r.content.decode('utf-8')))
+                resp = json.loads(r.content.decode('utf-8'))
+                self.assertEqual(resp['result'], 'error')
 
         #def test_dorm_put_key(self):
         #        self.reset_data()
@@ -46,21 +61,6 @@ class TestCherrypyPrimer(unittest.TestCase):
         #        self.assertTrue(self.is_json(r.content.decode()))
         #        resp = json.loads(r.content.decode())
         #        self.assertEqual(resp['value'], m['value'])
-
-        def test_dorm_delete(self):
-                d_id = 11
-
-                d = {}
-                r = requests.delete(self.DORMS_URL + str(d_id) + '/', data = json.dumps(d))
-                self.assertTrue(self.is_json(r.content.decode('utf-8')))
-                resp = json.loads(r.content.decode('utf-8'))
-                self.assertEqual(resp['result'], 'success')
-
-                r = requests.get(self.DORMS_URL + str(d_id) + '/')
-                self.assertTrue(self.is_json(r.content.decode('utf-8')))
-                resp = json.loads(r.content.decode('utf-8'))
-                self.assertEqual(resp['result'], 'error')
-
 
 if __name__ == "__main__":
         unittest.main()

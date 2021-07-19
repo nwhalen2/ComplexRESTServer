@@ -27,11 +27,11 @@ def start_service():
     # connect to reset controller
     dispatcher.connect('reset_index_put', '/reset/', controller=resetController, action = 'PUT_INDEX', conditions=dict(method=['PUT']))
 
-    # default OPTIONS handler for CORS, all direct to the same place
+    # default OPTIONS handler for CORS, direct to same place
     dispatcher.connect('dict_options', '/dictionary/', controller=optionsController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
     dispatcher.connect('dict_key_options', '/dictionary/:key', controller=optionsController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
 
-    #set up configuration
+    # set up configuration
     conf = {
         'global' : {
             'server.socket_host' : 'localhost', #'student04.cse.nd.edu',
@@ -43,17 +43,17 @@ def start_service():
             }
     }
 
-    #update with new configuration
+    # update with new configuration
     cherrypy.config.update(conf)
     app = cherrypy.tree.mount(None, config=conf) # create app
     cherrypy.quickstart(app)    # start app
 
-# class for CORS
+# CORS class
 class optionsController:
     def OPTIONS(self, *args, **kwargs):
         return ""
 
-# function for CORS
+# CORS function
 def CORS():
     cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
     cherrypy.response.headers["Access-Control-Allow-Methods"] = "GET, PUT, POST, DELETE, OPTIONS"

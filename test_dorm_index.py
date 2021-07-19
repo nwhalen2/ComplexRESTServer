@@ -23,7 +23,6 @@ class TestCherrypyPrimer(unittest.TestCase):
             self.reset_data()
 
             r = requests.get(self.DORMS_URL)
-            print(self.DORMS_URL)
             self.assertTrue(self.is_json(r.content.decode()))
             resp = json.loads(r.content.decode())
             self.assertEqual(resp['result'], 'success')

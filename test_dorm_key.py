@@ -119,7 +119,6 @@ class TestCherrypyPrimer(unittest.TestCase):
                 r = requests.put(self.DORMS_URL + str(new_id) + '/', data = json.dumps(d))
                 self.assertTrue(self.is_json(r.content.decode('utf-8')))
                 resp = json.loads(r.content.decode('utf-8'))
-                print("put resp: " + str(resp))
 
                 r = requests.get(self.DORMS_URL + str(new_id) + '/')
                 self.assertTrue(self.is_json(r.content.decode('utf-8')))

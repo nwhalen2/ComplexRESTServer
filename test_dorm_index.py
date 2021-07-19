@@ -51,7 +51,6 @@ class TestCherrypyPrimer(unittest.TestCase):
             r = requests.delete(self.DORMS_URL, data = json.dumps(d)) # deletes all data
             self.assertTrue(self.is_json(r.content.decode()))
             resp = json.loads(r.content.decode())
-            #print("delete output: " + str(resp))
             self.assertEqual(resp['result'], 'success')
 
             r = requests.delete(self.DORMS_URL + str(d_id) + '/') # attempt to delete already deleted key
@@ -86,32 +85,12 @@ class TestCherrypyPrimer(unittest.TestCase):
             r = requests.get(self.DORMS_URL + str(resp['id']) + '/')
             self.assertTrue(self.is_json(r.content.decode()))
             resp = json.loads(r.content.decode())
-            print(resp)
-            # !!!!! POST DOES NOT WORK YET !!!!!!!!!!!!!!!!!!!!
-            # ALWAYS TREATS BODY AS "name": "name"... etc !!!!!
-
-
-
-            #r = requests.get(self.DORMS_URL + str())
-
-         #       m = {}
-         #       m['key'] = 'HarryPotter'
-        #        m['value'] = 'Gryffindor'
-
-        #        r = requests.post(self.DICT_URL, data = json.dumps(m)) # performing post
-        #        self.assertTrue(self.is_json(r.content.decode()))
-        #        resp = json.loads(r.content.decode())
-        #        self.assertEqual(resp['result'], 'success')
-
-        #        r = requests.get(self.DICT_URL) # uses get
-        #        self.assertTrue(self.is_json(r.content.decode()))
-        #        resp = json.loads(r.content.decode())
-        #        self.assertEqual(resp['result'], 'success')
-
-        #        entries = resp['entries']
-        #        mkv = entries[0]
-        #        self.assertEqual(mkv['key'], m['key'])
-        #        self.assertEqual(mkv['value'], m['value'])
+            
+            self.assertEqual(resp['name'], d['name'])
+            self.assertEqual(resp['year'], 2021)
+            self.assertEqual(resp['gender'], 'Male')
+            self.assertEqual(resp['quad'], 'East')
+            self.assertEqual(resp['mascot'], d['mascot'])
 
 if __name__ == "__main__":
         unittest.main()

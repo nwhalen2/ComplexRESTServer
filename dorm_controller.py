@@ -76,16 +76,38 @@ class DormController(object):
 
     def POST_INDEX(self):
         output = {'result':'success'}
+        #d_id = int(d_id)
         # extract msg from body
         data = cherrypy.request.body.read().decode('utf-8')
+        print(data)
         data = json.loads(data)
-        print("body data: " + str(data))
 
         try:
             dorms = list(self.ddb.get_dorms())
             newID = int(dorms[-1]) + 1
-            self.ddb.dorm_info[newID] = data
             output['id'] = newID
+
+            dorm = list()
+            dorm.append(data['name'])
+            dorm.append(data['year'])
+            dorm.append(data['gender'])
+            dorm.append(data['quad'])
+            dorm.append(data['mascot'])
+
+            self.ddb.set_dorm(newID, dorm)
+
+        #return json.dumps(output)
+        #output = {'result':'success'}
+        # extract msg from body
+        #data = cherrypy.request.body.read().decode('utf-8')
+        #data = json.loads(data)
+        #print("body data: " + str(data))
+
+        #try:
+            #dorms = list(self.ddb.get_dorms())
+            #newID = int(dorms[-1]) + 1
+            #self.ddb.dorm_info[newID] = data
+            #output['id'] = newID
             
         except Exception as ex:
             output['result'] = 'error'
